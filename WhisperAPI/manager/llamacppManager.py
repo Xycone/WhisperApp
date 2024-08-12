@@ -24,7 +24,7 @@ class LlamaCppManager:
         [INST]
         You are an auditor, your task is to audit the content in the conversation.
         Keep in mind that the speaker assignment is not always accurate and some segments might be misassigned.
-        Go through the transcript verbatim and try to understand the intent of the speakers and their conversation:
+        Go through the transcript verbatim without creating your own information and try to understand the intent of the speakers and their conversation:
         [/INST]
         {transcript}
 
@@ -32,7 +32,7 @@ class LlamaCppManager:
         Audit the conversation according to the following criteria without changing anything.
         Keep in mind each item in the criteria checklist is independent of one another and does not have to appear in the transcript in any order:
         [/INST]
-        1. Clearly introduced themselves by name and state that they are calling from IPPFA or IPP without disclosing any other insurer or company.
+        1. Introduced themselves by name while stating that they are calling from IPPFA or IPP without disclosing any other insurer or company.
    
         2. Briefly shared about the types of services.
 
@@ -59,4 +59,4 @@ class LlamaCppManager:
             gc.collect()
 
         except Exception as e:
-            print(f"Error unloading model: {e}")        
+            print(f"Error unloading model: {e}")     
