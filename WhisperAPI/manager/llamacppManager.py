@@ -6,15 +6,15 @@ from langchain_community.llms import LlamaCpp
 class LlamaCppManager:
     def __init__(self, model_path, device: DeviceTypes):
         llm_params = {
-            'model_path': model_path,
-            'temperature': 0,
-            'max_tokens': 2000,
-            'n_ctx': 8192
+            "model_path": model_path,
+            "temperature": 0,
+            "max_tokens": 2000,
+            "n_ctx": 8192
         }
 
         if device == "cuda":
-            llm_params['n_gpu_layers'] = 32
-            llm_params['n_batch'] = 512
+            llm_params["n_gpu_layers"] = 33
+            llm_params["n_batch"] = 512
             
         self.__llm = LlamaCpp(**llm_params)
     
