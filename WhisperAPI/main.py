@@ -106,7 +106,7 @@ async def transcribe_files(form_data: TranscriptionDTO = Depends(), files: List[
     if form_data.audit:
         # 4. Unload models used for transcription & diarisation and load in the LLM used for auditing
         model_loader.del_all_models()
-        llama_cpp_manager = LlamaCppManager("/app/models/model.bin", DEVICE) 
+        llama_cpp_manager = model_loader.load_llm(DEVICE)
 
         # 5. Audit transcript of all audio files
         for index, file_data in response.items():
@@ -116,7 +116,7 @@ async def transcribe_files(form_data: TranscriptionDTO = Depends(), files: List[
                     for segment in file_data["segments"]
                     )
                 
-                response[index]['result'] = llama_cpp_manager.audit_transcript(formatted_transcript)
+                response[index]['result'] = llama_cpp_manager.audit_transcript(formatted_transcript, form_data.criteria)
 
             except Exception as e:
                 response[index]['result'] = {
@@ -124,7 +124,7 @@ async def transcribe_files(form_data: TranscriptionDTO = Depends(), files: List[
                 }
 
         # 6. Unload LLM used for auditing and load models used for transcription & diarisation
-        llama_cpp_manager.unload_model()
+        model_loader.del_models("LLM")
 
     return response
 

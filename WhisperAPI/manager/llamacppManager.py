@@ -1,5 +1,3 @@
-import gc
-
 from enums.deviceTypes import DeviceTypes
 from langchain_community.llms import LlamaCpp
 
@@ -18,7 +16,7 @@ class LlamaCppManager:
             
         self.__llm = LlamaCpp(**llm_params)
     
-    def audit_transcript(self, transcript):
+    def audit_transcript(self, transcript, criteria):
         prompt = f"""
         <s>
         [INST]
@@ -32,13 +30,7 @@ class LlamaCppManager:
         Audit the conversation according to the following criteria without changing anything.
         Keep in mind each item in the criteria checklist is independent of one another and does not have to appear in the transcript in any order:
         [/INST]
-        1. Introduced themselves by name while stating that they are calling from IPPFA or IPP without disclosing any other insurer or company.
-   
-        2. Briefly shared about the types of services.
-
-        3. Mention about a possibility of a meeting or Zoom session.
-   
-        4. Mentioned the name of the person or the source from whom they got the customer's contact details.
+        {criteria}
 
         [INST]
         For each item in the criteria checklist above, your response must follow the format:
@@ -51,12 +43,3 @@ class LlamaCppManager:
         result = self.__llm(prompt)
 
         return result
-    
-    def unload_model(self):
-        try:
-            # Delete the model instance and trigger garbage collection
-            del self.__llm
-            gc.collect()
-
-        except Exception as e:
-            print(f"Error unloading model: {e}")     

@@ -13,18 +13,19 @@ RUN apt-get update && \
         curl && \
     rm -rf /var/lib/apt/lists/*
 
-# Install CUDA Toolkit
-# Add the NVIDIA package repositories and keys
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/cuda-keyring_1.0-1_all.deb && \
+# Install CUDA and cuDNN
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb && \
     dpkg -i cuda-keyring_1.0-1_all.deb && \
     rm cuda-keyring_1.0-1_all.deb && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        cuda-toolkit-12-5 && \
+    cuda-toolkit-12-2 \
+    libcudnn8 \
+    libcudnn8-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Set environment variables for CUDA
-ENV PATH=/usr/local/cuda-12.5/bin:$PATH
+ENV PATH=/usr/local/cuda-12.2/bin:$PATH
 
 # Installs Github Packages
 RUN pip install "git+https://github.com/speechbrain/speechbrain.git" \

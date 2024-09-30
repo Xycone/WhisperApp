@@ -65,6 +65,16 @@ function ApiDocs() {
                     num_speakers: <code>integer</code>
                   </Typography>
                 </Box>
+                <Box mb={2}>
+                  <Typography>
+                    audit: <code>boolean</code>
+                  </Typography>
+                </Box>
+                <Box mb={2}>
+                  <Typography>
+                    criteria: <code>string</code>
+                  </Typography>
+                </Box>
               </Box>
 
               <Box mb={3}>

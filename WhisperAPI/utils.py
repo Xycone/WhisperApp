@@ -1,5 +1,5 @@
-from pydub import AudioSegment
 import torch
+from pydub import AudioSegment
 
 def is_stereo(path):
     try:
@@ -10,8 +10,3 @@ def is_stereo(path):
     except Exception as e:  
         print(f"Error checking if audio is stereo: {e}")
         return False
-    
-def clear_model(model):
-    del model
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()       

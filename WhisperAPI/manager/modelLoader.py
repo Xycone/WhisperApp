@@ -5,6 +5,7 @@ from manager.clusteringManager import ClusteringManager
 from manager.diarisationPipelineManager import DiarisationPipelineManager
 from manager.whisperManager import WhisperManager
 from manager.whisperXManager import WhisperXManager
+from manager.llamacppManager import LlamaCppManager
 
 from enums.deviceTypes import DeviceTypes
 from enums.modelSizes import ModelSizes
@@ -46,6 +47,14 @@ class ModelLoader():
         if model_key not in self.__loaded_models:
             self.__loaded_models[model_key] = DiarisationPipelineManager(device, auth_token)
 
+        return self.__loaded_models.get(model_key)
+    
+    def load_llm(self, device: DeviceTypes):
+        model_key = "LLM"
+
+        if model_key not in self.__loaded_models:
+            self.__loaded_models[model_key] = LlamaCppManager("/app/models/model.bin", device)
+        
         return self.__loaded_models.get(model_key)
     
     def get_model(self, model_key):

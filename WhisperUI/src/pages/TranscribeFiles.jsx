@@ -125,7 +125,8 @@ function TranscribeFiles() {
             diarisation: true,
             diarisation_method: "whisperX_pipeline",
             num_speakers: 2,
-            audit: true
+            audit: true,
+            criteria: ""
         },
 
         // Validation Schema
@@ -151,12 +152,16 @@ function TranscribeFiles() {
 
             audit: yup.bool()
                 .required(),
+
+            criteria: yup.string()
+                .max(1000)
         }),
 
         onSubmit: (data) => {
             data.model_size = data.model_size.trim();
             data.transcription_method = data.transcription_method.trim();
             data.diarisation_method = data.diarisation_method.trim();
+            data.criteria = data.criteria.trim();
 
             const formData = new FormData();
 
@@ -177,7 +182,8 @@ function TranscribeFiles() {
                     diarisation: data.diarisation,
                     diarisation_method: data.diarisation_method,
                     num_speakers: data.num_speakers,
-                    audit: data.audit
+                    audit: data.audit,
+                    criteria: data.criteria
                 }
             })
                 .then((res) => {
@@ -436,6 +442,7 @@ function TranscribeFiles() {
                                                 autoWidth
                                                 size="small"
                                                 name="diarisation_method"
+                                                disabled={!formik.values.diarisation}
                                                 value={formik.values.diarisation_method}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
@@ -509,6 +516,44 @@ function TranscribeFiles() {
                                 </FormControl>
                             </Grid>
                         </Grid>
+
+                        {formik.values.audit && (
+                            <Box>
+                                {/* Audit Criteria */}
+                                <Grid container my={2}>
+                                    <Grid item xs={12} md={4} lg={2.5}>
+                                        <Box
+                                            display="flex"
+                                            alignItems="center"
+                                            height="100%"
+                                        >
+                                            <Typography>Audit Criteria:</Typography>
+                                        </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12} md={8} lg={9.5}>
+                                        <Box
+                                            display="flex"
+                                            alignItems="center"
+                                            height="100%"
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                multiline
+                                                rows={10}
+                                                size="small"
+                                                name="criteria"
+                                                disabled={!formik.values.audit}
+                                                value={formik.values.criteria}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                error={formik.touched.criteria && Boolean(formik.errors.criteria)}
+                                            />
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        )}
 
                         <Divider />
 

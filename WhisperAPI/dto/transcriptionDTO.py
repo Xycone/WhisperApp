@@ -10,3 +10,4 @@ class TranscriptionDTO(BaseModel):
     diarisation_method: DiarisationMethods
     num_speakers: int
     audit: bool
+    criteria: str
