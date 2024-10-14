@@ -107,7 +107,7 @@ Follow the instructions to start WhisperUI and WhisperAPI:
 ### Creating the Docker GPU Image
 1. Start Docker Desktop.
 2. Open the CLI.
-3. Ensure that your CUDA version is >= 12.1
+3. Ensure that your CUDA version is >= 12.2
 4. Run the command. Replace `<file_path>` with the path to the project directory with the Dockerfile:
     ```bash
     docker build -f Dockerfile.gpu -t whisper-api-gpu-img <file_path>
